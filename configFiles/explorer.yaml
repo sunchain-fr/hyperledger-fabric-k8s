@@ -1,0 +1,96 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: blockchain-explorer-db
+  labels:
+    run: explorer-db
+spec:
+  type: ClusterIP 
+  selector:
+    name: explorer-db
+  ports:
+  - protocol: TCP
+    port: 5432
+    targetPort: 5432 
+    name: pgsql
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: blockchain-explorer-app
+  labels:
+    run: explorer-app
+spec:
+  type: LoadBalancer 
+  selector:
+    name: explorer-app
+  ports:
+  - protocol: TCP
+    port: 8080
+    targetPort: 8080
+    name: web
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: blockchain-explorer-db
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        name: explorer-db
+    spec:
+      #volumes:
+      #- name: sharedvolume
+      #  persistentVolumeClaim:
+      #    claimName: shared-pvc
+
+      containers:
+      - name: postgres
+        image: postgres:10.4-alpine
+        env:
+        - name: TZ
+          value: "America/Sao_Paulo"
+        - name: DATABASE_DATABASE
+          value: fabricexplorer
+        - name: DATABASE_USERNAME
+          value: hppoc
+        - name: DATABASE_PASSWORD
+          value: password
+        #volumeMounts:
+        #- mountPath: /shared/
+        #  name: sharedvolume
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: blockchain-explorer-app
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        name: explorer-app
+    spec:
+      volumes:
+      - name: sharedvolume
+        persistentVolumeClaim:
+          claimName: shared-pvc
+
+      containers:
+      - name: explorer-app
+        image: hyperledger/explorer:latest
+        command: ["sh", "-c", "ls /shared; ls /shared/artifacts; ls /shared/artifacts/explorer; ls /shared/artifacts/explorer/app"]
+        env:
+        - name: TZ
+          value: "America/Sao_Paulo"
+        - name: DATABASE_HOST
+          value: blockchain-explorer-db
+        - name: DATABASE_USERNAME
+          value: hppoc
+        - name: DATABASE_PASSWORD
+          value: password
+        volumeMounts:
+        - mountPath: /shared
+          name: sharedvolume

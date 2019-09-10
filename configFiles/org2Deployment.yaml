@@ -1,0 +1,174 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: blockchain-org2-ca
+  labels:
+    run: blockchain-org2-ca
+spec:
+  type: NodePort
+  selector:
+    name: org2-ca
+  ports:
+  - protocol: TCP
+    nodePort: 30055
+    targetPort: 7054
+    port: 30055
+    name: grpc
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: blockchain-org2peer1
+  labels:
+    run: blockchain-org2peer1
+spec:
+  type: NodePort
+  selector:
+    name: org2peer1
+  ports:
+  - protocol: TCP
+    nodePort: 30210
+    targetPort: 30210
+    port: 30210
+    name: grpc
+  - protocol: TCP
+    nodePort: 30211
+    targetPort: 30211
+    port: 30211
+    name: events
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: blockchain-org2-ca
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        name: org2-ca
+    spec:
+      volumes:
+      - name: sharedvolume
+        persistentVolumeClaim:
+          claimName: shared-pvc
+
+      containers:
+      - name: org2-ca
+        image: hyperledger/fabric-ca:1.4
+        command: ["sh", "-c", "sleep 1 && while [ ! -f /shared/status_configtxgen_complete ]; do echo Waiting for configtxgen; sleep 1; done; fabric-ca-server start -b admin:adminpw -d"]
+        env:
+        - name: FABRIC_CA_SERVER_CA_NAME
+          value: "CA2"
+        - name: FABRIC_CA_SERVER_CA_CERTFILE
+          value: /shared/crypto-config/peerOrganizations/org2.example.com/ca/ca.org2.example.com-cert.pem
+        - name: FABRIC_CA_SERVER_CA_KEYFILE
+          value: /shared/crypto-config/peerOrganizations/org2.example.com/ca/key.pem
+        - name: FABRIC_CA_SERVER_DEBUG
+          value: "true"
+        - name: FABRIC_CA_SERVER_TLS_ENABLED
+          value: "false"
+        - name: FABRIC_CA_SERVER_TLS_CERTFILE
+          value: /certs/ca0a-cert.pem
+        - name: FABRIC_CA_SERVER_TLS_KEYFILE
+          value: /certs/ca0a-key.pem
+        - name: GODEBUG
+          value: "netdns=go"
+        volumeMounts:
+        - mountPath: /shared
+          name: sharedvolume
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: blockchain-org2peer1
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        name: org2peer1
+    spec:
+      volumes:
+      - name: sharedvolume
+        persistentVolumeClaim:
+          claimName: shared-pvc
+      - name: dockersocket
+        hostPath:
+          path: /var/run/docker.sock
+
+      containers:
+      - name: org2peer1
+        image: hyperledger/fabric-peer:1.4
+        command: ["sh", "-c", "sleep 1 && while [ ! -f /shared/status_configtxgen_complete ]; do echo Waiting for configtxgen; sleep 1; done;  peer node start"]
+        env:
+        - name: CORE_PEER_ADDRESSAUTODETECT
+          value: "true"
+        - name: CORE_PEER_ID
+          value: org2peer1
+        - name: CORE_PEER_NETWORKID
+          value: nid1
+        - name: CORE_PEER_ADDRESS
+          value: blockchain-org2peer1:30210
+        - name: CORE_PEER_LISTENADDRESS
+          value: 0.0.0.0:30210
+        - name: CORE_PEER_EVENTS_ADDRESS
+          value: 0.0.0.0:30211
+        - name: CORE_PEER_GOSSIP_BOOTSTRAP
+          value: blockchain-org2peer1:30210
+        - name: CORE_PEER_GOSSIP_ORGLEADER
+          value: "false"
+        - name: CORE_PEER_GOSSIP_SKIPHANDSHAKE
+          value: "true"
+        - name: CORE_PEER_COMMITTER_ENABLED
+          value: "true"
+        - name: CORE_PEER_PROFILE_ENABLED
+          value: "true"
+        - name: CORE_VM_ENDPOINT
+          value: tcp://docker:2375
+        - name: CORE_PEER_LOCALMSPID
+          value: Org2MSP
+        - name: CORE_PEER_MSPCONFIGPATH
+          value: /shared/crypto-config/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/msp/
+        - name: FABRIC_LOGGING_SPEC
+          value: debug
+        - name: CORE_LOGGING_PEER
+          value: debug
+        - name: CORE_LOGGING_CAUTHDSL
+          value: debug
+        - name: CORE_LOGGING_GOSSIP
+          value: debug
+        - name: CORE_LOGGING_LEDGER
+          value: debug
+        - name: CORE_LOGGING_MSP
+          value: debug
+        - name: CORE_LOGGING_POLICIES
+          value: debug
+        - name: CORE_LOGGING_GRPC
+          value: debug
+        - name: CORE_PEER_TLS_ENABLED
+          value: "false"
+        - name: CORE_PEER_TLS_ENABLED
+          value: "true"
+        - name: CORE_PEER_TLS_KEY_FILE
+          value: /shared/crypto-config/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls/server.key
+        - name: CORE_PEER_TLS_CERT_FILE
+          value: /shared/crypto-config/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls/server.crt
+        - name: CORE_PEER_TLS_ROOTCERT_FILE
+          value: /shared/crypto-config/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls/ca.crt
+
+        - name: CORE_LEDGER_STATE_STATEDATABASE
+          value: goleveldb
+        - name: FABRIC_CFG_PATH
+          value: /etc/hyperledger/fabric/
+        - name: ORDERER_URL
+          value: blockchain-orderer:31010
+        - name: GODEBUG
+          value: "netdns=go"
+        - name: CORE_VM_DOCKER_ATTACHSTDOUT
+          value: "true"
+        volumeMounts:
+        - mountPath: /shared
+          name: sharedvolume
+        - mountPath: /host/var/run/docker.sock
+          name: dockersocket
