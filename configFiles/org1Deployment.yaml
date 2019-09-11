@@ -96,7 +96,7 @@ spec:
         - name: ORDERER_GENERAL_LOGLEVEL
           value: debug
         - name: ORDERER_GENERAL_LOCALMSPDIR
-          value: /shared/crypto-config/ordererOrganizations/org1.example.com/orderers/orderer.org1.example.com/msp
+          value: /shared/crypto-config/ordererOrganizations/blockchain-orderer/orderers/blockchain-orderer/msp
         - name: ORDERER_GENERAL_LOCALMSPID
           value: OrdererMSP
         - name: ORDERER_GENERAL_GENESISMETHOD
@@ -108,11 +108,11 @@ spec:
         - name: ORDERER_GENERAL_TLS_ENABLED
           value: "true"
         - name: ORDERER_GENERAL_TLS_PRIVATEKEY
-          value: /shared/crypto-config/ordererOrganizations/org1.example.com/orderers/orderer.org1.example.com/tls/server.key
+          value: /shared/crypto-config/ordererOrganizations/blockchain-orderer/orderers/blockchain-orderer/tls/server.key
         - name: ORDERER_GENERAL_TLS_CERTIFICATE
-          value: /shared/crypto-config/ordererOrganizations/org1.example.com/orderers/orderer.org1.example.com/tls/server.crt
+          value: /shared/crypto-config/ordererOrganizations/blockchain-orderer/orderers/blockchain-orderer/tls/server.crt
         - name: ORDERER_GENERAL_TLS_ROOTCAS
-          value: /shared/crypto-config/ordererOrganizations/org1.example.com/orderers/orderer.org1.example.com/tls/ca.crt
+          value: /shared/crypto-config/ordererOrganizations/blockchain-orderer/orderers/blockchain-orderer/tls/ca.crt
         - name: GODEBUG
           value: "netdns=go"
         volumeMounts:
@@ -212,7 +212,7 @@ spec:
         - name: CORE_PEER_LOCALMSPID
           value: Org1MSP
         - name: CORE_PEER_MSPCONFIGPATH
-          value: /shared/crypto-config/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/msp/
+          value: /shared/crypto-config/peerOrganizations/org1.example.com/peers/blockchain-org1peer1/msp/
         - name: FABRIC_LOGGING_SPEC
           value: debug
         - name: CORE_LOGGING_PEER
@@ -232,11 +232,11 @@ spec:
         - name: CORE_PEER_TLS_ENABLED
           value: "true"
         - name: CORE_PEER_TLS_KEY_FILE
-          value: /shared/crypto-config/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/server.key
+          value: /shared/crypto-config/peerOrganizations/org1.example.com/peers/blockchain-org1peer1/tls/server.key
         - name: CORE_PEER_TLS_CERT_FILE
-          value: /shared/crypto-config/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/server.crt
+          value: /shared/crypto-config/peerOrganizations/org1.example.com/peers/blockchain-org1peer1/tls/server.crt
         - name: CORE_PEER_TLS_ROOTCERT_FILE
-          value: /shared/crypto-config/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/ca.crt
+          value: /shared/crypto-config/peerOrganizations/org1.example.com/peers/blockchain-org1peer1/tls/ca.crt
         - name: CORE_LEDGER_STATE_STATEDATABASE
           value: goleveldb
         - name: FABRIC_CFG_PATH

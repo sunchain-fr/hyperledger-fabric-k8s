@@ -31,10 +31,14 @@ spec:
       - name: createchannel
         image: hyperledger/fabric-peer:1.4
         imagePullPolicy: Always
-        command: ["sh", "-c", "while [ ! -f /shared/status_channeltx_complete ]; do echo Waiting for channeltx; sleep 2; done; peer channel create -o ${ORDERER_URL} -c ${CHANNEL_NAME} -f /shared/${CHANNEL_NAME}.tx && rm /shared/status_channeltx_complete && touch /shared/status_channelcreate_complete"]
+        command: ["sh", "-c", "while [ ! -f /shared/status_channeltx_complete ]; do echo Waiting for channeltx; sleep 2; done; peer channel create -o ${ORDERER_URL} -c ${CHANNEL_NAME} --tls --cafile ${CA_FILE} -f /shared/${CHANNEL_NAME}.tx && rm /shared/status_channeltx_complete && touch /shared/status_channelcreate_complete"]
         env:
         - name: CHANNEL_NAME
           value: channel1
+        - name: CORE_PEER_TLS_ENABLED
+          value: "true"
+        - name: CA_FILE
+          value: /shared/crypto-config/ordererOrganizations/blockchain-orderer/orderers/blockchain-orderer/tls/ca.crt
         - name: ORDERER_URL
           value: blockchain-orderer:31010
         - name: CORE_PEER_ADDRESSAUTODETECT
@@ -44,7 +48,7 @@ spec:
         - name: CORE_PEER_LOCALMSPID
           value: Org1MSP
         - name: CORE_PEER_MSPCONFIGPATH
-          value: /shared/crypto-config/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/msp/
+          value: /shared/crypto-config/peerOrganizations/org1.example.com/peers/blockchain-org1peer1/msp/
         - name: FABRIC_LOGGING_SPEC
           value: debug
         - name: FABRIC_CFG_PATH

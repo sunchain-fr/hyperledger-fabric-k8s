@@ -18,10 +18,20 @@ spec:
       - name: joinchannel1
         image: hyperledger/fabric-peer:1.4
         imagePullPolicy: Always
-        command: ["sh", "-c", "peer channel fetch newest -o ${ORDERER_URL} -c ${CHANNEL_NAME} && peer channel join -b ${CHANNEL_NAME}_newest.block "]
+        command: ["sh", "-c", "peer channel fetch newest -o ${ORDERER_URL} -c ${CHANNEL_NAME} --tls --cafile ${CA_FILE} && peer channel join -b ${CHANNEL_NAME}_newest.block"]
         env:
         - name: CHANNEL_NAME
           value: channel1
+        - name: CORE_PEER_TLS_ENABLED
+          value: "true"
+        - name: CORE_PEER_TLS_KEY_FILE
+          value: /shared/crypto-config/peerOrganizations/org1.example.com/peers/blockchain-org1peer1/tls/server.key
+        - name: CORE_PEER_TLS_CERT_FILE
+          value: /shared/crypto-config/peerOrganizations/org1.example.com/peers/blockchain-org1peer1/tls/server.crt
+        - name: CORE_PEER_TLS_ROOTCERT_FILE
+          value: /shared/crypto-config/peerOrganizations/org1.example.com/peers/blockchain-org1peer1/tls/ca.crt
+        - name: CA_FILE
+          value: /shared/crypto-config/ordererOrganizations/blockchain-orderer/orderers/blockchain-orderer/tls/ca.crt
         - name: CORE_PEER_NETWORKID
           value: nid1
         - name: ORDERER_URL
@@ -47,10 +57,20 @@ spec:
       - name: joinchannel2
         image: hyperledger/fabric-peer:1.4
         imagePullPolicy: Always
-        command: ["sh", "-c", "peer channel fetch newest -o ${ORDERER_URL} -c ${CHANNEL_NAME} && peer channel join -b ${CHANNEL_NAME}_newest.block "]
+        command: ["sh", "-c", "peer channel fetch newest -o ${ORDERER_URL} -c ${CHANNEL_NAME} --tls --cafile ${CA_FILE} && peer channel join -b ${CHANNEL_NAME}_newest.block "]
         env:
         - name: CHANNEL_NAME
           value: channel1
+        - name: CORE_PEER_TLS_ENABLED
+          value: "true"
+        - name: CORE_PEER_TLS_KEY_FILE
+          value: /shared/crypto-config/peerOrganizations/org2.example.com/peers/blockchain-org2peer1/tls/server.key
+        - name: CORE_PEER_TLS_CERT_FILE
+          value: /shared/crypto-config/peerOrganizations/org2.example.com/peers/blockchain-org2peer1/tls/server.crt
+        - name: CORE_PEER_TLS_ROOTCERT_FILE
+          value: /shared/crypto-config/peerOrganizations/org2.example.com/peers/blockchain-org2peer1/tls/ca.crt
+        - name: CA_FILE
+          value: /shared/crypto-config/ordererOrganizations/blockchain-orderer/orderers/blockchain-orderer/tls/ca.crt
         - name: CORE_PEER_NETWORKID
           value: nid1
         - name: ORDERER_URL
@@ -76,10 +96,20 @@ spec:
       - name: joinchannel3
         image: hyperledger/fabric-peer:1.4
         imagePullPolicy: Always
-        command: ["sh", "-c", "peer channel fetch newest -o ${ORDERER_URL} -c ${CHANNEL_NAME} && peer channel join -b ${CHANNEL_NAME}_newest.block "]
+        command: ["sh", "-c", "peer channel fetch newest -o ${ORDERER_URL} -c ${CHANNEL_NAME} --tls --cafile ${CA_FILE} && peer channel join -b ${CHANNEL_NAME}_newest.block "]
         env:
         - name: CHANNEL_NAME
           value: channel1
+        - name: CORE_PEER_TLS_ENABLED
+          value: "true"
+        - name: CORE_PEER_TLS_KEY_FILE
+          value: /shared/crypto-config/peerOrganizations/org3.example.com/peers/blockchain-org3peer1/tls/server.key
+        - name: CORE_PEER_TLS_CERT_FILE
+          value: /shared/crypto-config/peerOrganizations/org3.example.com/peers/blockchain-org3peer1/tls/server.crt
+        - name: CORE_PEER_TLS_ROOTCERT_FILE
+          value: /shared/crypto-config/peerOrganizations/org3.example.com/peers/blockchain-org3peer1/tls/ca.crt
+        - name: CA_FILE
+          value: /shared/crypto-config/ordererOrganizations/blockchain-orderer/orderers/blockchain-orderer/tls/ca.crt
         - name: CORE_PEER_NETWORKID
           value: nid1
         - name: ORDERER_URL
@@ -105,10 +135,20 @@ spec:
       - name: joinchannel4
         image: hyperledger/fabric-peer:1.4
         imagePullPolicy: Always
-        command: ["sh", "-c", "peer channel fetch newest -o ${ORDERER_URL} -c ${CHANNEL_NAME} && peer channel join -b ${CHANNEL_NAME}_newest.block "]
+        command: ["sh", "-c", "peer channel fetch newest -o ${ORDERER_URL} -c ${CHANNEL_NAME} --tls --cafile ${CA_FILE} && peer channel join -b ${CHANNEL_NAME}_newest.block "]
         env:
         - name: CHANNEL_NAME
           value: channel1
+        - name: CORE_PEER_TLS_ENABLED
+          value: "true"
+        - name: CORE_PEER_TLS_KEY_FILE
+          value: /shared/crypto-config/peerOrganizations/org4.example.com/peers/blockchain-org4peer1/tls/server.key
+        - name: CORE_PEER_TLS_CERT_FILE
+          value: /shared/crypto-config/peerOrganizations/org4.example.com/peers/blockchain-org4peer1/tls/server.crt
+        - name: CORE_PEER_TLS_ROOTCERT_FILE
+          value: /shared/crypto-config/peerOrganizations/org4.example.com/peers/blockchain-org4peer1/tls/ca.crt
+        - name: CA_FILE
+          value: /shared/crypto-config/ordererOrganizations/blockchain-orderer/orderers/blockchain-orderer/tls/ca.crt
         - name: CORE_PEER_NETWORKID
           value: nid1
         - name: ORDERER_URL

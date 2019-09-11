@@ -45,6 +45,12 @@ spec:
         env:
         - name: CHAINCODE_NAME
           value: "cc"
+        - name: CORE_PEER_TLS_KEY_FILE
+          value: /shared/crypto-config/peerOrganizations/org2.example.com/peers/blockchain-org1peer2/tls/server.key
+        - name: CORE_PEER_TLS_CERT_FILE
+          value: /shared/crypto-config/peerOrganizations/org2.example.com/peers/blockchain-org1peer2/tls/server.crt
+        - name: CORE_PEER_TLS_ROOTCERT_FILE
+          value: /shared/crypto-config/peerOrganizations/org2.example.com/peers/blockchain-org1peer2/tls/ca.crt
         - name: CHAINCODE_VERSION
           value: "1.0"
         - name: FABRIC_CFG_PATH
@@ -68,6 +74,12 @@ spec:
         env:
         - name: CHAINCODE_NAME
           value: "cc"
+        - name: CORE_PEER_TLS_KEY_FILE
+          value: /shared/crypto-config/peerOrganizations/org3.example.com/peers/blockchain-org1peer3/tls/server.key
+        - name: CORE_PEER_TLS_CERT_FILE
+          value: /shared/crypto-config/peerOrganizations/org3.example.com/peers/blockchain-org1peer3/tls/server.crt
+        - name: CORE_PEER_TLS_ROOTCERT_FILE
+          value: /shared/crypto-config/peerOrganizations/org3.example.com/peers/blockchain-org1peer3/tls/ca.crt
         - name: CHAINCODE_VERSION
           value: "1.0"
         - name: FABRIC_CFG_PATH
@@ -91,6 +103,12 @@ spec:
         env:
         - name: CHAINCODE_NAME
           value: "cc"
+        - name: CORE_PEER_TLS_KEY_FILE
+          value: /shared/crypto-config/peerOrganizations/org4.example.com/peers/blockchain-org1peer4/tls/server.key
+        - name: CORE_PEER_TLS_CERT_FILE
+          value: /shared/crypto-config/peerOrganizations/org4.example.com/peers/blockchain-org1peer4/tls/server.crt
+        - name: CORE_PEER_TLS_ROOTCERT_FILE
+          value: /shared/crypto-config/peerOrganizations/org4.example.com/peers/blockchain-org1peer4/tls/ca.crt
         - name: CHAINCODE_VERSION
           value: "1.0"
         - name: FABRIC_CFG_PATH

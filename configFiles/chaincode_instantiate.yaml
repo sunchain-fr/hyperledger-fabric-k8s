@@ -19,10 +19,14 @@ spec:
       - name: chaincodeinstantiate
         image: hyperledger/fabric-tools:1.4
         imagePullPolicy: Always
-        command: ["sh", "-c", "peer chaincode instantiate -o blockchain-orderer:31010 -C ${CHANNEL_NAME} -n ${CHAINCODE_NAME} -v ${CHAINCODE_VERSION} -c '{\"Args\":[\"init\",\"a\",\"100\",\"b\",\"200\"]}'"]
+        command: ["sh", "-c", "peer chaincode instantiate -o blockchain-orderer:31010 --tls ${CORE_PEER_TLS_ENABLED} --cafile ${CA_FILE} -C ${CHANNEL_NAME} -n ${CHAINCODE_NAME} -v ${CHAINCODE_VERSION} -c '{\"Args\":[\"init\",\"a\",\"100\",\"b\",\"200\"]}'"]
         env:
         - name: CHANNEL_NAME
           value: channel1
+        - name: CORE_PEER_TLS_ENABLED
+          value: "true"
+        - name: CA_FILE
+          value: /shared/crypto-config/ordererOrganizations/blockchain-orderer/orderers/blockchain-orderer/tls/ca.crt
         - name: CHAINCODE_NAME
           value: "cc"
         - name: CHAINCODE_VERSION

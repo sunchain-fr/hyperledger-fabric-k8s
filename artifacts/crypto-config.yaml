@@ -6,12 +6,13 @@ OrdererOrgs:
   # Orderer
   # ---------------------------------------------------------------------------
   - Name: Orderer
-    Domain: org1.example.com
+    Domain: blockchain-orderer
     # ---------------------------------------------------------------------------
     # "Specs" - See PeerOrgs below for complete description
     # ---------------------------------------------------------------------------
     Specs:
-      - Hostname: orderer
+      - Hostname: blockchain-orderer
+        CommonName: blockchain-orderer        
 # ---------------------------------------------------------------------------
 # "PeerOrgs" - Definition of organizations managing peer nodes
 # ---------------------------------------------------------------------------
@@ -21,6 +22,10 @@ PeerOrgs:
   # ---------------------------------------------------------------------------
   - Name: Org1
     Domain: org1.example.com
+    Specs:
+      - Hostname: blockchain-org1peer1
+        CommonName: blockchain-org1peer1
+
     # ---------------------------------------------------------------------------
     # "Specs"
     # ---------------------------------------------------------------------------
@@ -70,6 +75,9 @@ PeerOrgs:
   # ---------------------------------------------------------------------------
   - Name: Org2
     Domain: org2.example.com
+    Specs:
+      - Hostname: blockchain-org2peer1
+        CommonName: blockchain-org2peer1
     Template:
       Count: 2
     Users:
@@ -79,6 +87,10 @@ PeerOrgs:
   # ---------------------------------------------------------------------------
   - Name: Org3
     Domain: org3.example.com
+    Specs:
+      - Hostname: blockchain-org3peer1
+        CommonName: blockchain-org3peer1
+
     Template:
       Count: 2
     Users:
@@ -88,6 +100,10 @@ PeerOrgs:
   # ---------------------------------------------------------------------------
   - Name: Org4
     Domain: org4.example.com
+    Specs:
+      - Hostname: blockchain-org4peer1
+        CommonName: blockchain-org4peer1
+
     Template:
       Count: 2
     Users:

@@ -92,5 +92,11 @@ spec:
         - name: DATABASE_PASSWORD
           value: password
         volumeMounts:
-        - mountPath: /shared
-          name: sharedvolume
+        - name: sharedvolume
+          mountPath: /shared
+        - name: explorer-config
+          mountPath: /opt/explorer/run.sh
+          subPath: run.sh
+        - name: explorer-config
+          mountPath: /opt/explorer/config.json
+          subPath: config.json

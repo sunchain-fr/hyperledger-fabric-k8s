@@ -129,7 +129,7 @@ spec:
         - name: CORE_PEER_LOCALMSPID
           value: Org4MSP
         - name: CORE_PEER_MSPCONFIGPATH
-          value: /shared/crypto-config/peerOrganizations/org4.example.com/peers/peer0.org4.example.com/msp/
+          value: /shared/crypto-config/peerOrganizations/org4.example.com/peers/blockchain-org4peer1/msp/
         - name: FABRIC_LOGGING_SPEC
           value: debug
         - name: CORE_LOGGING_PEER
@@ -149,11 +149,11 @@ spec:
         - name: CORE_PEER_TLS_ENABLED
           value: "true"
         - name: CORE_PEER_TLS_KEY_FILE
-          value: /shared/crypto-config/peerOrganizations/org4.example.com/peers/peer0.org4.example.com/tls/server.key
+          value: /shared/crypto-config/peerOrganizations/org4.example.com/peers/blockchain-org4peer1/tls/server.key
         - name: CORE_PEER_TLS_CERT_FILE
-          value: /shared/crypto-config/peerOrganizations/org4.example.com/peers/peer0.org4.example.com/tls/server.crt
+          value: /shared/crypto-config/peerOrganizations/org4.example.com/peers/blockchain-org4peer1/tls/server.crt
         - name: CORE_PEER_TLS_ROOTCERT_FILE
-          value: /shared/crypto-config/peerOrganizations/org4.example.com/peers/peer0.org4.example.com/tls/ca.crt
+          value: /shared/crypto-config/peerOrganizations/org4.example.com/peers/blockchain-org4peer1/tls/ca.crt
 
         - name: CORE_LEDGER_STATE_STATEDATABASE
           value: goleveldb
