@@ -18,23 +18,6 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: blockchain-orderer
-  labels:
-    run: blockchain-orderer
-spec:
-  type: NodePort
-  selector:
-    name: org1-orderer
-  ports:
-  - protocol: TCP
-    nodePort: 31010
-    targetPort: 31010
-    port: 31010
-    name: grpc
----
-apiVersion: v1
-kind: Service
-metadata:
   name: blockchain-org1peer1
   labels:
     run: blockchain-org1peer1
@@ -53,72 +36,6 @@ spec:
     targetPort: 30111
     port: 30111
     name: events
----
-apiVersion: extensions/v1beta1
-kind: Deployment
-metadata:
-  name: blockchain-orderer
-spec:
-  replicas: 1
-  template:
-    metadata:
-      labels:
-        name: org1-orderer
-    spec:
-      volumes:
-      - name: sharedvolume
-        persistentVolumeClaim:
-          claimName: shared-pvc
-
-      containers:
-      - name: org1-orderer
-        image: hyperledger/fabric-orderer:1.4
-        command: ["sh", "-c", "sleep 5 && while [ ! -f /shared/status_configtxgen_complete ]; do echo Waiting for configtxgen; sleep 1; done; orderer"]
-        env:
-        - name: ORDERER_CFG_PATH
-          value: /shared/
-        - name: ORDERER_GENERAL_LEDGERTYPE
-          value: file
-        - name: ORDERER_FILELEDGER_LOCATION
-          value: /shared/ledger/orderer
-        - name: ORDERER_GENERAL_BATCHTIMEOUT
-          value: 1s
-        - name: ORDERER_GENERAL_BATCHSIZE_MAXMESSAGECOUNT
-          value: "10"
-        - name: ORDERER_GENERAL_MAXWINDOWSIZE
-          value: "1000"
-        - name: ORDERER_GENERAL_ORDERERTYPE
-          value: solo
-        - name: ORDERER_GENERAL_LISTENADDRESS
-          value: 0.0.0.0
-        - name: ORDERER_GENERAL_LISTENPORT
-          value: "31010"
-        - name: ORDERER_GENERAL_LOGLEVEL
-          value: debug
-        - name: ORDERER_GENERAL_LOCALMSPDIR
-          value: /shared/crypto-config/ordererOrganizations/blockchain-orderer/orderers/blockchain-orderer/msp
-        - name: ORDERER_GENERAL_LOCALMSPID
-          value: OrdererMSP
-        - name: ORDERER_GENERAL_GENESISMETHOD
-          value: file
-        - name: ORDERER_GENERAL_GENESISFILE
-          value: /shared/genesis.block
-        - name: ORDERER_GENERAL_GENESISPROFILE
-          value: initial
-        - name: ORDERER_GENERAL_TLS_ENABLED
-          value: "true"
-        - name: ORDERER_GENERAL_TLS_PRIVATEKEY
-          value: /shared/crypto-config/ordererOrganizations/blockchain-orderer/orderers/blockchain-orderer/tls/server.key
-        - name: ORDERER_GENERAL_TLS_CERTIFICATE
-          value: /shared/crypto-config/ordererOrganizations/blockchain-orderer/orderers/blockchain-orderer/tls/server.crt
-        - name: ORDERER_GENERAL_TLS_ROOTCAS
-          value: /shared/crypto-config/ordererOrganizations/blockchain-orderer/orderers/blockchain-orderer/tls/ca.crt
-        - name: GODEBUG
-          value: "netdns=go"
-        volumeMounts:
-        - mountPath: /shared
-          name: sharedvolume
-
 ---
 apiVersion: extensions/v1beta1
 kind: Deployment

@@ -95,6 +95,27 @@ while [ "${JOBSTATUS}" != "1/1" ]; do
 done
 echo "Copy artifacts job completed"
 
+echo "Waiting for 10 more seconds for copying artifacts to avoid any network delay"
+sleep 10
+
+echo -e "\nGenerating the required artifacts for Blockchain network"
+echo "Running: kubectl create -f ${KUBECONFIG_FOLDER}/generateCrypto.yaml"
+kubectl create -f ${KUBECONFIG_FOLDER}/generateCrypto.yaml
+
+JOBSTATUS=$(kubectl get jobs |grep crypto|awk '{print $2}')
+while [ "${JOBSTATUS}" != "1/1" ]; do
+    echo "Waiting for generateArtifacts job to complete"
+    sleep 1;
+    # UTILSLEFT=$(kubectl get pods | grep utils | awk '{print $2}')
+    UTILSSTATUS=$(kubectl get pods | grep "crypto" | awk '{print $3}')
+    if [ "${UTILSSTATUS}" == "Error" ]; then
+            echo "There is an error in utils job. Please check logs."
+            exit 1
+    fi
+    # UTILSLEFT=$(kubectl get pods | grep utils | awk '{print $2}')
+    JOBSTATUS=$(kubectl get jobs |grep crypto|awk '{print $2}')
+done
+
 
 # Generate Network artifacts using configtx.yaml and crypto-config.yaml
 echo -e "\nGenerating the required artifacts for Blockchain network"
@@ -119,6 +140,8 @@ done
 # Create peers, ca, orderer using Kubernetes Deployments
 echo -e "\nCreating new Deployment to create four peers in network"
 echo "Running: kubectl create -f ${KUBECONFIG_FOLDER}/peersDeployment.yaml"
+kubectl create -f ${KUBECONFIG_FOLDER}/orgOrderer.yaml
+
 kubectl create -f ${KUBECONFIG_FOLDER}/org1Deployment.yaml
 kubectl create -f ${KUBECONFIG_FOLDER}/org2Deployment.yaml
 kubectl create -f ${KUBECONFIG_FOLDER}/org3Deployment.yaml

@@ -20,6 +20,18 @@ spec:
         imagePullPolicy: Always
         command: ["sh", "-c", "echo $GOPATH; cp -r /shared/artifacts/chaincode $GOPATH/src/; ls $GOPATH/src; peer chaincode install -n ${CHAINCODE_NAME} -v ${CHAINCODE_VERSION} -p chaincode_example02/"]
         env:
+        - name: CORE_PEER_TLS_KEY_FILE
+          value: /shared/crypto-config/peerOrganizations/org1.example.com/peers/blockchain-org1peer1/tls/server.key
+        - name: CORE_PEER_TLS_CERT_FILE
+          value: /shared/crypto-config/peerOrganizations/org1.example.com/peers/blockchain-org1peer1/tls/server.crt
+        - name: CORE_PEER_TLS_ROOTCERT_FILE
+          value: /shared/crypto-config/peerOrganizations/org1.example.com/peers/blockchain-org1peer1/tls/ca.crt
+        
+        - name: CHANNEL_NAME
+          value: channel1        
+        - name: CORE_PEER_TLS_ENABLED
+          value: "true"
+          
         - name: CHAINCODE_NAME
           value: "cc"
         - name: CHAINCODE_VERSION
@@ -43,14 +55,19 @@ spec:
         imagePullPolicy: Always
         command: ["sh", "-c", "echo $GOPATH; cp -r /shared/artifacts/chaincode $GOPATH/src/; ls $GOPATH/src; peer chaincode install -n ${CHAINCODE_NAME} -v ${CHAINCODE_VERSION} -p chaincode_example02/"]
         env:
+        - name: CHANNEL_NAME
+          value: channel1        
+        - name: CORE_PEER_TLS_ENABLED
+          value: "true"
+
         - name: CHAINCODE_NAME
           value: "cc"
         - name: CORE_PEER_TLS_KEY_FILE
-          value: /shared/crypto-config/peerOrganizations/org2.example.com/peers/blockchain-org1peer2/tls/server.key
+          value: /shared/crypto-config/peerOrganizations/org2.example.com/peers/blockchain-org2peer1/tls/server.key
         - name: CORE_PEER_TLS_CERT_FILE
-          value: /shared/crypto-config/peerOrganizations/org2.example.com/peers/blockchain-org1peer2/tls/server.crt
+          value: /shared/crypto-config/peerOrganizations/org2.example.com/peers/blockchain-org2peer1/tls/server.crt
         - name: CORE_PEER_TLS_ROOTCERT_FILE
-          value: /shared/crypto-config/peerOrganizations/org2.example.com/peers/blockchain-org1peer2/tls/ca.crt
+          value: /shared/crypto-config/peerOrganizations/org2.example.com/peers/blockchain-org2peer1/tls/ca.crt
         - name: CHAINCODE_VERSION
           value: "1.0"
         - name: FABRIC_CFG_PATH
@@ -72,14 +89,19 @@ spec:
         imagePullPolicy: Always
         command: ["sh", "-c", "echo $GOPATH; cp -r /shared/artifacts/chaincode $GOPATH/src/; ls $GOPATH/src; peer chaincode install -n ${CHAINCODE_NAME} -v ${CHAINCODE_VERSION} -p chaincode_example02/"]
         env:
+        - name: CHANNEL_NAME
+          value: channel1        
+        - name: CORE_PEER_TLS_ENABLED
+          value: "true"
+
         - name: CHAINCODE_NAME
           value: "cc"
         - name: CORE_PEER_TLS_KEY_FILE
-          value: /shared/crypto-config/peerOrganizations/org3.example.com/peers/blockchain-org1peer3/tls/server.key
+          value: /shared/crypto-config/peerOrganizations/org3.example.com/peers/blockchain-org3peer1/tls/server.key
         - name: CORE_PEER_TLS_CERT_FILE
-          value: /shared/crypto-config/peerOrganizations/org3.example.com/peers/blockchain-org1peer3/tls/server.crt
+          value: /shared/crypto-config/peerOrganizations/org3.example.com/peers/blockchain-org3peer1/tls/server.crt
         - name: CORE_PEER_TLS_ROOTCERT_FILE
-          value: /shared/crypto-config/peerOrganizations/org3.example.com/peers/blockchain-org1peer3/tls/ca.crt
+          value: /shared/crypto-config/peerOrganizations/org3.example.com/peers/blockchain-org3peer1/tls/ca.crt
         - name: CHAINCODE_VERSION
           value: "1.0"
         - name: FABRIC_CFG_PATH
@@ -101,14 +123,19 @@ spec:
         imagePullPolicy: Always
         command: ["sh", "-c", "echo $GOPATH; cp -r /shared/artifacts/chaincode $GOPATH/src/; ls $GOPATH/src; peer chaincode install -n ${CHAINCODE_NAME} -v ${CHAINCODE_VERSION} -p chaincode_example02/"]
         env:
+        - name: CHANNEL_NAME
+          value: channel1        
+        - name: CORE_PEER_TLS_ENABLED
+          value: "true"
+
         - name: CHAINCODE_NAME
           value: "cc"
         - name: CORE_PEER_TLS_KEY_FILE
-          value: /shared/crypto-config/peerOrganizations/org4.example.com/peers/blockchain-org1peer4/tls/server.key
+          value: /shared/crypto-config/peerOrganizations/org4.example.com/peers/blockchain-org4peer1/tls/server.key
         - name: CORE_PEER_TLS_CERT_FILE
-          value: /shared/crypto-config/peerOrganizations/org4.example.com/peers/blockchain-org1peer4/tls/server.crt
+          value: /shared/crypto-config/peerOrganizations/org4.example.com/peers/blockchain-org4peer1/tls/server.crt
         - name: CORE_PEER_TLS_ROOTCERT_FILE
-          value: /shared/crypto-config/peerOrganizations/org4.example.com/peers/blockchain-org1peer4/tls/ca.crt
+          value: /shared/crypto-config/peerOrganizations/org4.example.com/peers/blockchain-org4peer1/tls/ca.crt
         - name: CHAINCODE_VERSION
           value: "1.0"
         - name: FABRIC_CFG_PATH
