@@ -3,6 +3,7 @@ apiVersion: batch/v1
 kind: Job
 metadata:
   name: joinchannel
+  namespace: blockchain
 spec:
   backoffLimit: 1
   template:
@@ -170,4 +171,5 @@ spec:
         volumeMounts:
         - mountPath: /shared
           name: sharedvolume
-
+      nodeSelector:
+        kops.k8s.io/instancegroup: blockchain-nodes

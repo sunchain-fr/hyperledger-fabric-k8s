@@ -1,7 +1,19 @@
+kind: StorageClass
+apiVersion: storage.k8s.io/v1
+metadata:
+  name: gp2
+  annotations:
+    storageclass.kubernetes.io/is-default-class: "true"
+provisioner: kubernetes.io/aws-ebs
+parameters:
+  type: gp2
+  fsType: ext4 
+---
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
   name: shared-pvc
+  namespace: blockchain
   labels:
     app: blockchain
 spec:
@@ -9,5 +21,5 @@ spec:
     - ReadWriteMany
   resources:
     requests:
-      storage: 20Gi
-  storageClassName: "ibmc-file-bronze"
+      storage: 10Gi
+  storageClassName: "gp2"

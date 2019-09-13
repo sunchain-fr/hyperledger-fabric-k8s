@@ -3,6 +3,7 @@ kind: PersistentVolume
 apiVersion: v1
 metadata:
   name: shared-pv
+  namespace: blockchain
   labels:
     type: local
     name: sharedvolume
@@ -19,6 +20,7 @@ kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
   name: shared-pvc
+  namespace: blockchain
 spec:
   accessModes:
     - ReadWriteMany

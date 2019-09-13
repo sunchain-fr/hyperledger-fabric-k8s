@@ -17,8 +17,6 @@ OrdererOrgs:
         CommonName: blockchain-orderer2
       - Hostname: blockchain-orderer3
         CommonName: blockchain-orderer3
-      - Hostname: blockchain-orderer4
-        CommonName: blockchain-orderer4
         
 # ---------------------------------------------------------------------------
 # "PeerOrgs" - Definition of organizations managing peer nodes

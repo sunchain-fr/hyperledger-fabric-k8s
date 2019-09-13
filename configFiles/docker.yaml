@@ -3,6 +3,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: docker
+  namespace: blockchain
   labels:
     run: docker
 spec:
@@ -17,6 +18,7 @@ apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
   name: docker-dind
+  namespace: blockchain
 spec:
   replicas: 1
   template:
@@ -38,3 +40,5 @@ spec:
         volumeMounts:
         - mountPath: /var/lib/docker
           name: dockervolume
+      nodeSelector:
+        kops.k8s.io/instancegroup: blockchain-nodes

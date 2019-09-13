@@ -34,7 +34,7 @@
       "organizations": {
         "Org1MSP": {
           "mspid": "Org1MSP",
-          "fullpath": false,
+          "fullpath": true,
           "adminPrivateKey": {
             "path":
               "/shared/crypto-config/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp/keystore/key.pem"
@@ -46,7 +46,7 @@
         },
         "Org2MSP": {
           "mspid": "Org2MSP",
-          "fullpath": false,
+          "fullpath": true,
           "adminPrivateKey": {
             "path":
               "/shared/crypto-config/peerOrganizations/org2.example.com/users/Admin@org2.example.com/msp/keystore/key.pem"
@@ -58,7 +58,7 @@
         },
         "Org3MSP": {
           "mspid": "Org3MSP",
-          "fullpath": false,
+          "fullpath": true,
           "adminPrivateKey": {
             "path":
               "/shared/crypto-config/peerOrganizations/org3.example.com/users/Admin@org3.example.com/msp/keystore/key.pem"
@@ -70,7 +70,7 @@
         },
         "Org4MSP": {
           "mspid": "Org4MSP",
-          "fullpath": false,
+          "fullpath": true,
           "adminPrivateKey": {
             "path":
               "/shared/crypto-config/peerOrganizations/org4.example.com/users/Admin@org4.example.com/msp/keystore/key.pem"
@@ -141,6 +141,6 @@
       }
     }
   },
-  "configtxgenToolPath": "/fabric-path/workspace/fabric-samples/bin",
+  "configtxgenToolPath": "/shared/",
   "license": "Apache-2.0"
 }

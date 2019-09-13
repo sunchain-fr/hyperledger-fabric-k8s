@@ -2,6 +2,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: blockchain-org1-ca
+  namespace: blockchain
   labels:
     run: blockchain-org1-ca
 spec:
@@ -19,6 +20,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: blockchain-org1peer1
+  namespace: blockchain
   labels:
     run: blockchain-org1peer1
 spec:
@@ -41,6 +43,7 @@ apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
   name: blockchain-org1-ca
+  namespace: blockchain
 spec:
   replicas: 1
   template:
@@ -77,11 +80,14 @@ spec:
         volumeMounts:
         - mountPath: /shared
           name: sharedvolume
+      nodeSelector:
+        kops.k8s.io/instancegroup: blockchain-nodes
 ---
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
   name: blockchain-org1peer1
+  namespace: blockchain
 spec:
   replicas: 1
   template:
@@ -169,4 +175,6 @@ spec:
           name: sharedvolume
         - mountPath: /host/var/run/docker.sock
           name: dockersocket
+      nodeSelector:
+        kops.k8s.io/instancegroup: blockchain-nodes
 ---

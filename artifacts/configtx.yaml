@@ -190,9 +190,14 @@ Orderer: &OrdererDefaults
           Port: 32010
           ClientTLSCert: crypto-config/ordererOrganizations/blockchain-orderer/orderers/blockchain-orderer2/tls/server.crt
           ServerTLSCert: crypto-config/ordererOrganizations/blockchain-orderer/orderers/blockchain-orderer2/tls/server.crt
+        - Host: blockchain-orderer3
+          Port: 31012
+          ClientTLSCert: crypto-config/ordererOrganizations/blockchain-orderer/orderers/blockchain-orderer3/tls/server.crt
+          ServerTLSCert: crypto-config/ordererOrganizations/blockchain-orderer/orderers/blockchain-orderer3/tls/server.crt
     Addresses:
         - blockchain-orderer:31010
-        # - blockchain-orderer2:32010
+        - blockchain-orderer2:32010
+        - blockchain-orderer3:31012
     # Batch Timeout: The amount of time to wait before creating a batch
     BatchTimeout: 2s
 

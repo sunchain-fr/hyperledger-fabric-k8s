@@ -1,6 +1,9 @@
 
 KUBECONFIG_FOLDER=./configFiles
 
+kubectl delete -f ${KUBECONFIG_FOLDER}/explorer.yaml
+
+
 kubectl delete -f ${KUBECONFIG_FOLDER}/chaincode_instantiate.yaml
 kubectl delete -f ${KUBECONFIG_FOLDER}/chaincode_install.yaml
 

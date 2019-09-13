@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: copy-complete-artifact
+  namespace: blockchain
+spec:
+  selector:
+    matchLabels:
+      name: copy-complete-artifact
+  template:
+    metadata:
+      labels:
+        name: copy-complete-artifact
+    spec:
+      containers:
+      - name: copy-complete-artifact
+        image: busybox
+        volumeMounts:
+        - mountPath: /shared
+          name: sharedvolume
+      volumes:
+      - name: sharedvolume
+        persistentVolumeClaim:
+          claimName: shared-pvc
+      nodeSelector:
+        kops.k8s.io/instancegroup: blockchain-nodes
