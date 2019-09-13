@@ -41,10 +41,10 @@ spec:
       labels:
         name: explorer-db
     spec:
-      #volumes:
-      #- name: sharedvolume
-      #  persistentVolumeClaim:
-      #    claimName: shared-pvc
+      volumes:
+      - name: sharedvolume
+        persistentVolumeClaim:
+          claimName: shared-pvc
 
       containers:
       - name: postgres
@@ -58,9 +58,9 @@ spec:
           value: hppoc
         - name: DATABASE_PASSWORD
           value: password
-        #volumeMounts:
-        #- mountPath: /shared/
-        #  name: sharedvolume
+        volumeMounts:
+        - mountPath: /shared/
+          name: sharedvolume
 ---
 apiVersion: extensions/v1beta1
 kind: Deployment
@@ -81,7 +81,7 @@ spec:
       containers:
       - name: explorer-app
         image: hyperledger/explorer:latest
-        command: ["sh", "-c", "ls /shared; ls /shared/artifacts; ls /shared/artifacts/explorer; ls /shared/artifacts/explorer/app"]
+        command: ["sh", "-c", "mkdir -p /opt/explorer/app/platform/fabric/; mkdir -p /tmp/; mv /opt/explorer/app/platform/fabric/config.json /opt/explorer/app/platform/fabric/config.json.vanilla; cp /shared/artifacts/explorer/config.json /opt/explorer/app/platform/fabric/config.json; cd /opt/explorer; node $EXPLORER_APP_PATH/main.js && tail -f /dev/null;"]
         env:
         - name: TZ
           value: "America/Sao_Paulo"
@@ -94,9 +94,3 @@ spec:
         volumeMounts:
         - name: sharedvolume
           mountPath: /shared
-        - name: explorer-config
-          mountPath: /opt/explorer/run.sh
-          subPath: run.sh
-        - name: explorer-config
-          mountPath: /opt/explorer/config.json
-          subPath: config.json
